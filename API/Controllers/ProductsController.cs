@@ -1,13 +1,11 @@
-using Infrastructure.Data;
 using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Core.Interfaces;
 using Core.Specification;
 using API.Dtos;
 using AutoMapper;
-using Microsoft.AspNetCore.Http.HttpResults;
 using API.Errors;
+using API.Helpers;
 
 namespace API.Controllers
 {
@@ -21,21 +19,26 @@ namespace API.Controllers
         public ProductsController(IGenericRepository<Product> _productsRepo,
             IGenericRepository<ProductBrand> _productBrandRepo,
             IGenericRepository<ProductType> _productTypeRepo,
-            IMapper mapper)
+            IMapper _mapper)
         {
             this._productTypeRepo = _productTypeRepo;
-            this._mapper = mapper;
+            this._mapper = _mapper;
             this._productBrandRepo = _productBrandRepo;
             this._productsRepo = _productsRepo;
 
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts(
+            [FromQuery] ProductSpecParams productParams)
         {
-            var spec = new ProductWithTypesAndBrandsSpecification();
+            var spec = new ProductWithTypesAndBrandsSpecification(productParams);
+            var countSpec = new ProductWithFiltersForCountSpecification(productParams);
+            var totalItems = await _productsRepo.CountAsync(spec);
             var products = await _productsRepo.ListAsync(spec);
-            return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products));
+            var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
+
+            return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex, productParams.PageSize, totalItems, data));
         }
 
         [HttpGet("{id}")]
