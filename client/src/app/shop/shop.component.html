@@ -36,9 +36,12 @@
                     [pageSize]="shopParams.pageSize"></app-paging-header>
                 <div class="d-flex mt-2">
                     <input type="text" placeholder="Search"
-                        class="form-control me-2">
-                    <button class="btn btn-outline-primary mx-2">Search</button>
-                    <button class="btn btn-outline-success mx-2">Reset</button>
+                        (keyup.enter)="onSearch()"
+                        class="form-control me-2" #search>
+                    <button (click)="onSearch()"
+                        class="btn btn-outline-primary mx-2">Search</button>
+                    <button (click)="onReset()"
+                        class="btn btn-outline-success mx-2">Reset</button>
                 </div>
             </div>
 
