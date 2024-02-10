@@ -8,5 +8,17 @@
     text-align: center;
     top: -12px;
     right: 32px;
-    
+}
+
+a {
+    text-decoration: none;
+    color: #343e40;
+
+    &.active {
+        color: orange;
+    }
+}
+
+.logo {
+    cursor: pointer;
 }

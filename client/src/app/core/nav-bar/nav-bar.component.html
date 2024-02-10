@@ -1,14 +1,17 @@
 <header
     class="d-flex flex-row align-items-center justify-content-between pb-3 px-4 mb-4
     bg-white fixed-top shadow-sm border-bottom">
-    <img src="/assets/images/logo.png" alt="Skinet Logo">
+    <img src="/assets/images/logo.png" class="logo" alt="Skinet Logo">
     <nav class="my-2 text-uppercase fs-4">
-        <a class="p-2 text-dark text-decoration-none"
-            href="#">Home</a>
-        <a class="p-2 text-dark text-decoration-none"
-            href="#">Shop</a>
-        <a class="p-2 text-dark text-decoration-none"
-            href="#">Contact</a>
+        <a class="p-2"
+            routerLinkActive="active"
+            routerLink="/"
+            [routerLinkActiveOptions]="{exact: true}">Home</a>
+        <a class="p-2"
+            routerLinkActive="active"
+            routerLink="/shop">Shop</a>
+        <a class="p-2" routerLinkActive="active"
+            routerLink="/contact">Contact</a>
     </nav>
     <div class="d-flex align-items-center">
         <a class="position-relative">
