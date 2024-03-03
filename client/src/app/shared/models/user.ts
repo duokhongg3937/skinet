@@ -8,6 +8,7 @@ export interface Address {
     firstName: string,
     lastName: string,
     street: string,
+    state: string,
     city: string,
     zipCode: string,
 }
